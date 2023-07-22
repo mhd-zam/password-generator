@@ -1,28 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPenToSquare,
   faTrash,
   faShare,
+  faEye
 } from "@fortawesome/free-solid-svg-icons";
 import { CustomContext } from "../context/ExternalContext";
 import { useContext } from "react";
 
-const Card = () => {
-    const {setShareModal,setShowModal}=useContext(CustomContext)
+const Card = ({ data, EditCallback,passwordCallback,deleteCallback,shareCallback}) => {
+  const {setAlert} = useContext(CustomContext);
+  const [visiblity,setVisiblity]=useState(false)
+
   return (
     <div className="w-full  mb-4 border-2 bg-white rounded-lg shadow-lg p-4">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-gray-800">Social Media</h2>
-          <p className="text-gray-600">Your social media platform</p>
+          <h2 className="text-lg font-semibold text-gray-800">Platform</h2>
+          <p className="text-gray-600">{data.platform}</p>
         </div>
         <div className="flex space-x-4">
           <button
             className="text-blue-500 hover:text-blue-700"
             title="Edit"
             onClick={() => {
-                setShowModal(true)
+              EditCallback(data._id);
             }}
           >
             <FontAwesomeIcon icon={faPenToSquare} />
@@ -31,7 +34,8 @@ const Card = () => {
             className="text-red-500 hover:text-red-700"
             title="Delete"
             onClick={() => {
-              // Add your delete functionality here
+              setAlert(true)
+              deleteCallback(data._id)
             }}
           >
             <FontAwesomeIcon icon={faTrash} />
@@ -40,7 +44,7 @@ const Card = () => {
             className="text-blue-600 hover:text-blue-800"
             title="share"
             onClick={() => {
-                setShareModal(true)
+              shareCallback(data._id)
             }}
           >
             <FontAwesomeIcon icon={faShare} />
@@ -53,27 +57,7 @@ const Card = () => {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-lg font-semibold text-gray-800">Username</h2>
-          <p className="text-gray-600">Your username</p>
-        </div>
-        <div className="flex space-x-2">
-          <button
-            className="text-blue-500 hover:text-blue-700"
-            title="Edit"
-            onClick={() => {
-              // Add your edit functionality here
-            }}
-          >
-            <i className="fas fa-edit"></i>
-          </button>
-          <button
-            className="text-red-500 hover:text-red-700"
-            title="Delete"
-            onClick={() => {
-              // Add your delete functionality here
-            }}
-          >
-            <i className="fas fa-trash"></i>
-          </button>
+          <p className="text-gray-600">{data.username}</p>
         </div>
       </div>
 
@@ -82,27 +66,18 @@ const Card = () => {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-lg font-semibold text-gray-800">Password</h2>
-          <p className="text-gray-600">Your password</p>
-        </div>
-        <div className="flex space-x-2">
+          <div onClick={()=>setVisiblity(prev =>!prev)} className="flex space-x-4" >
+          {visiblity?<p className="text-gray-600 truncate w-45 ">{data.password}</p>:<p className="text-gray-600 font-extrabold text-lg truncate w-32 ">********</p>}
           <button
-            className="text-blue-500 hover:text-blue-700"
-            title="Edit"
-            onClick={() => {
-              // Add your edit functionality here
+            className="text-blue-600 hover:text-blue-800"
+            title="share"
+              onClick={() => {
+                passwordCallback(data._id)
             }}
           >
-            <i className="fas fa-edit"></i>
+          <FontAwesomeIcon icon={faEye} />
           </button>
-          <button
-            className="text-red-500 hover:text-red-700"
-            title="Delete"
-            onClick={() => {
-              // Add your delete functionality here
-            }}
-          >
-            <i className="fas fa-trash"></i>
-          </button>
+          </div>
         </div>
       </div>
     </div>

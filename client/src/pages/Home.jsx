@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { CustomContext } from "../context/ExternalContext";
 import { useContext } from "react";
-import Card from "../components/Card";
-import ShareForm from "../components/ShareForm";
-import Modal from "../components/Modal";
+import FormPage from "./FormPage";
+import CardManger from "./CardManger";
+import Shareditems from "./Shareditems";
 function Home() {
   const { setShowModal } = useContext(CustomContext);
+
+  useEffect(() => {
+    document.body.style.backgroundColor = '#0C0374'
+    return ()=>{document.body.style.backgroundColor='white'}
+  },[])
+
   return (
     <>
       <Navbar />
@@ -17,25 +23,18 @@ function Home() {
             type="button"
             onClick={() => setShowModal(true)}
           >
-            Open regular modal
+            Create
           </button>
         </div>
         <h2 className=" text-xl pl-2  pt-4 md:text-4xl pb-10 font-bold text-blue-600">
           Secure User Credentials
         </h2>
-        <Modal/>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-        </div>
-        <ShareForm />
+        <CardManger />
+        <h2 className=" text-xl pl-2  pt-4 md:text-4xl pb-10 font-bold text-blue-600">
+          Shared Credentials
+        </h2>
+        <Shareditems />
+        <FormPage />
       </div>
     </>
   );

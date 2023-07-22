@@ -1,9 +1,11 @@
-import React,{useContext} from "react";
+import React, { useContext } from "react";
 import { CustomContext } from "../context/ExternalContext";
-import Form from "./Form";
+import { clearFormData } from "../Redux/formData/formAction";
+import { useDispatch } from "react-redux";
 
-export default function Modal() {
-  const {showModal, setShowModal}=useContext(CustomContext)
+export default function Modal({ children }) {
+  const { showModal, setShowModal } = useContext(CustomContext);
+  const dispatch=useDispatch()
   return (
     <>
       {showModal ? (
@@ -17,7 +19,10 @@ export default function Modal() {
                   <h3 className="text-3xl font-semibold">Modal Title</h3>
                   <button
                     className="p-1 ml-auto bg-transparent border-0 text-black  float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                    onClick={() => setShowModal(false)}
+                    onClick={() => {
+                      setShowModal(false);
+                      dispatch(clearFormData());
+                    }}
                   >
                     <span className="bg-transparent text-black  h-6 w-6 text-2xl block outline-none focus:outline-none">
                       ×
@@ -25,9 +30,7 @@ export default function Modal() {
                   </button>
                 </div>
                 {/*body*/}
-                <div className="relative p-6  flex-auto">
-                <Form/>
-                </div>
+                <div className="relative p-6  flex-auto">{children}</div>
                 {/*footer*/}
               </div>
             </div>
