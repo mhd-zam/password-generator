@@ -1,4 +1,4 @@
-import { adminLogin } from "./adminType";
+import { adminLogin, adminLogout } from "./adminType";
 
 
 export function adminlogin(data) {
@@ -8,7 +8,7 @@ export function adminlogin(data) {
  }   
 }
 
-export function adminLogout() {
+export function adminlogout() {
     return {
         type: adminLogout
     }

@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import {useEffect, useContext } from "react";
 import { axiosPrivate } from "../config/axiosconfig";
 import { useDispatch, useSelector } from "react-redux";
 import { RemoveUserStatus } from "../Redux/userStatus/userAction";
+import { CustomContext } from "../context/ExternalContext";
 
 const useAxios = () => {
   const token = useSelector((state) => state.userStatus.accessToken);
   const dispatch = useDispatch();
+  const {toast}=useContext(CustomContext)
   useEffect(() => {
     const requestInterceptor = axiosPrivate.interceptors.request.use(
       (config) => {
@@ -20,11 +22,11 @@ const useAxios = () => {
       (response) => {
         return response;
       },
-      (error) => {
-        if (error?.response?.status === 401) {
-          // dispatch(RemoveUserStatus());
-        }
-        return Promise.reject(error);
+      (err) => {
+        if (err.response.status==403) {
+          dispatch(RemoveUserStatus())
+        } 
+        return Promise.reject(err);
       }
     );
 

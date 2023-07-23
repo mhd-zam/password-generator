@@ -23,7 +23,6 @@ module.exports = {
           throw error;
         }
         let response = await userCredential.create(credentials);
-        console.log(response);
         resolve(response);
       } catch (err) {
         reject(err);
@@ -39,6 +38,13 @@ module.exports = {
           error.statusCode = 401;
           throw error;
         }
+    
+         if (result.blocked) {
+          const error = new Error("Entry restricted");
+          error.statusCode = 403;
+          throw error;
+         }
+        
         let check = await bcrypt.compare(credentials.password, result.password);
         if (!check) {
           const error = new Error("Invalid Password");
@@ -51,10 +57,7 @@ module.exports = {
           process.env.ACCESS_TOKEN_SECRET,
           { expiresIn: "2d" }
         );
-
         resolve({ accessToken, logged: true });
-
-        console.log(result);
       } catch (err) {
         reject(err);
       }
@@ -90,7 +93,6 @@ module.exports = {
 
   updatedocument: (data) => {
     return new Promise((resolve, reject) => {
-      console.log(data);
     });
   },
 
@@ -182,8 +184,6 @@ module.exports = {
   setEditfile: (fileid, file) => {
     return new Promise(async (resolve, reject) => {
       try {
-        console.log(file.password);
-
         const cipher = crypto.createCipheriv(algorithm, key, orginaldata);
         let encryptedData = cipher.update(file.password, "utf-8", "hex");
         encryptedData += cipher.final("hex");
@@ -214,7 +214,6 @@ module.exports = {
 
         if (response._id == userid) {
           const error = new Error("not self shareble");
-          console.log("keri");
           error.statusCode = 401;
           throw error;
         }

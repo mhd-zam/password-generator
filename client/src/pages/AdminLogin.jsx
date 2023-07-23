@@ -5,11 +5,11 @@ import { useState } from "react";
 import {useDispatch} from 'react-redux'
 import { adminlogin } from "../Redux/adminStatus/adminAction";
 import useAxiosAdmin from "../hooks/useAxiosadmin";
+import { toast } from "react-toastify";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
   const axios = useAxiosAdmin();
-  const [err, setErr] = useState("");
   const dispatch=useDispatch()
   const {
     handleSubmit,
@@ -32,7 +32,11 @@ export default function AdminLogin() {
         navigate('/Adminhome')
       }
     } catch (err) {
-      setErr('something went wrong')
+      if (err.response.status == 401) {
+        toast.error("Account doesn't exisist")
+      } else {
+        toast.error('something went wrong')
+     }
     }
   }
   return (
@@ -47,9 +51,6 @@ export default function AdminLogin() {
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Admin Login
           </h2>
-          <h6 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-red-600">
-            {err}
-          </h6>
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">

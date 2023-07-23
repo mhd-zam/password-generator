@@ -12,14 +12,23 @@ function CardManger() {
   const [data, setData] = useState([]);
   const [id, setid] = useState("");
   let axios = useAxios();
-  const { toast, setAlert,setShowModal,setRefresh,setShareModal,refresh } = useContext(CustomContext);
+  const { toast, setAlert, setShowModal, setRefresh, setShareModal, refresh } =
+    useContext(CustomContext);
 
   const getList = async () => {
     try {
       let response = await axios.get("/getMyList");
       setData(response.data);
     } catch (err) {
-      toast.error("something went wrong");
+      console.log(err);
+
+      if (err.response.status == 403) {
+        toast.error("Entry Restricted");
+      } else {
+        toast.error("something went wrong");
+      }
+
+      // console.warn(err)
     }
   };
 
@@ -29,12 +38,17 @@ function CardManger() {
 
   async function editFile(id) {
     try {
-      let {data} = await axios.get(`/getEditFile/${id}`);
+      let { data } = await axios.get(`/getEditFile/${id}`);
       dispatch(insertFormData(data));
       setShowModal(true);
       console.log(data);
     } catch (err) {
-      toast.error("something went wrong");
+      if (err.response.status == 403) {
+        toast.error("Entry Restricted");
+      } else {
+        toast.error("something went wrong");
+      }
+      // console.warn(err)
     }
   }
 
@@ -48,7 +62,12 @@ function CardManger() {
       setAlert(false);
       setRefresh((prev) => !prev);
     } catch (err) {
-      toast.error("something went wrong");
+      if (err.response.status == 403) {
+        toast.error("Entry Restricted");
+      } else {
+        toast.error("something went wrong");
+      }
+      //  console.warn(err)
     }
   }
 
@@ -63,13 +82,18 @@ function CardManger() {
       });
       setData(result);
     } catch (err) {
-      toast.error("something went wrong");
+      if (err.response.status == 403) {
+        toast.error("Entry Restricted");
+      } else {
+        toast.error("something went wrong");
+      }
+      //  console.warn(err)
     }
   }
 
   function share(id) {
-    setid(id)
-    setShareModal(true)
+    setid(id);
+    setShareModal(true);
   }
 
   return (

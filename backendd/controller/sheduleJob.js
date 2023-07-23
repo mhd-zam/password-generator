@@ -8,7 +8,6 @@ schedule.scheduleJob("0 0 * * *", async () => {
     { "sharedList.validity": { $eq: currentDate } },
     { $pull: { sharedList: { validity: currentDate } } }
   );
-  console.log("worked");
 });
 
 console.log("consoled");

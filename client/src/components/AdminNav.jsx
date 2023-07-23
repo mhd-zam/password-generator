@@ -1,9 +1,12 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { adminlogout } from "../Redux/adminStatus/adminAction";
 
 function AdminNav() {
+  const dispatch=useDispatch()
   return (
     <div className="navbar bg-blue-700">
-      <div class="container mx-auto">
+      <div className="container mx-auto">
         <div className="flex-1">
           <div className="flex flex-row gap-2">
             <img
@@ -31,7 +34,7 @@ function AdminNav() {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <a>Logout</a>
+                <a onClick={()=>{dispatch(adminlogout())}} >Logout</a>
               </li>
             </ul>
           </div>

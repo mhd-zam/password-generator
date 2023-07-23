@@ -10,7 +10,11 @@ function Home() {
 
   useEffect(() => {
     document.body.style.backgroundColor = '#0C0374'
-    return ()=>{document.body.style.backgroundColor='white'}
+    document.body.style.height='100%'
+    return () => {
+      document.body.style.backgroundColor = 'white'
+      document.body.style.height=''
+    }
   },[])
 
   return (
@@ -30,9 +34,6 @@ function Home() {
           Secure User Credentials
         </h2>
         <CardManger />
-        <h2 className=" text-xl pl-2  pt-4 md:text-4xl pb-10 font-bold text-blue-600">
-          Shared Credentials
-        </h2>
         <Shareditems />
         <FormPage />
       </div>

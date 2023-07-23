@@ -12,17 +12,16 @@ function Shareditems() {
       let response = await axios.get("/sharedFiles");
       setData(response.data);
     } catch (err) {
-      console.log(err);
+      console.warn(err);
     }
   };
 
   useEffect(() => {
     getSharedFile();
   }, []);
-    
-    
-    async function viewPassword(id) {
-      alert(id)
+
+  async function viewPassword(id) {
+    alert(id);
     try {
       let response = await axios.get(`/viewPassword/${id}`);
       let result = data.map((elem) => {
@@ -36,12 +35,17 @@ function Shareditems() {
       toast.error("something went wrong");
     }
   }
-    
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      {data.map((item, index) => (
-        <SharedCard key={index} passwordCallback={viewPassword} data={item} />
-      ))}
+    <div>
+      <h2 className=" text-xl pl-2  pt-4 md:text-4xl pb-10 font-bold text-blue-600">
+        {data.length==0?null:'Shared Credentials'}
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {data.map((item, index) => (
+          <SharedCard key={index} passwordCallback={viewPassword} data={item} />
+        ))}
+      </div>
     </div>
   );
 }

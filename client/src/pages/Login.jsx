@@ -5,11 +5,11 @@ import useAxios from "../hooks/useAxios";
 import { useState } from "react";
 import {useDispatch} from 'react-redux'
 import { InsertUserStatus } from "../Redux/userStatus/userAction";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate();
   const axios = useAxios();
-  const [err, setErr] = useState("");
   const dispatch=useDispatch()
   const {
     handleSubmit,
@@ -32,10 +32,11 @@ export default function Login() {
         navigate('/')
       }
     } catch (err) {
-      if (err.response.data.message === 'Account does not exsist'|| err.response.data.message === 'Invalid Password' ) {
-        setErr(err.response.data.message);
+      console.log(err.response.status)
+      if (err.response.status == 401 || err.response.status == 403 ) {
+        toast.error(err.response.data.message)
       } else {
-        setErr('something went wrong')
+        toast.error('something went wrong')
       }
       
     }
@@ -52,9 +53,6 @@ export default function Login() {
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Login to your account
           </h2>
-          <h6 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-red-600">
-            {err}
-          </h6>
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">

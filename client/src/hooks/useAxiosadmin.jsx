@@ -1,9 +1,11 @@
 import {useEffect } from "react";
 import { axiosAdmin } from "../config/axiosconfig";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import { adminlogout } from "../Redux/adminStatus/adminAction";
 
 const useAxiosAdmin = () => {
-  const token = 'ghjgjhg'
+  const token = useSelector(state => state.adminStatus.akn)
+  const dispatch=useDispatch()
   useEffect(() => {
     const requestInterceptor = axiosAdmin.interceptors.request.use(
       (config) => {
@@ -20,7 +22,7 @@ const useAxiosAdmin = () => {
       },
       (error) => {
         if (error?.response?.status === 401) {
-          
+          dispatch(adminlogout())
         }
         return Promise.reject(error);
       }

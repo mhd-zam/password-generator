@@ -1,6 +1,8 @@
 import "./App.css";
 import ExternalContext from "./context/ExternalContext";
+import AdminAuth from "./pages/AdminAuth";
 import AdminLogin from "./pages/AdminLogin";
+import AdminOutside from "./pages/AdminOutside";
 import Adminhome from "./pages/Adminhome";
 import Auth from "./pages/Auth";
 import Home from "./pages/Home";
@@ -24,8 +26,12 @@ function App() {
             <Route path="/Signup" element={<Signup />} />
           </Route>
           <Route  >
-            <Route path="/Admin" element={<AdminLogin />} />
+            <Route element={<AdminAuth/>}>
             <Route path="/Adminhome" element={<Adminhome/>} />
+            </Route>
+            <Route element={<AdminOutside/>}>
+            <Route path="/Admin" element={<AdminLogin />} />
+            </Route>
           </Route>
         </Routes>
       </ExternalContext>
